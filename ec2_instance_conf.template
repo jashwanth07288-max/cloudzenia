@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    server_name ec2-instance.helloworld.com;
+
+    location / {
+        return 200 'Hello from Instance';
+        add_header Content-Type text/plain;
+    }
+}
+
+server {
+    listen 80;
+    server_name ec2-docker.helloworld.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
